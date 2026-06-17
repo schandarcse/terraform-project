@@ -309,7 +309,7 @@ resource "aws_security_group" "ec2_sg" {
   # In production, restrict to your IP
   ingress {
     from_port   = 3389
-    to_port     = 3380
+    to_port     = 3389
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -434,7 +434,7 @@ resource "aws_lb_target_group" "target_group" {
     protocol = "HTTP"
 
     # Healthy response code
-    matcher = "60"
+    matcher = "200"
 
     # Check every 5 seconds
     interval = 5
