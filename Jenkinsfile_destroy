@@ -1,6 +1,5 @@
 pipeline {
 
-```
 agent any
 
 stages {
@@ -72,6 +71,5 @@ post {
         echo 'Terraform destroy failed.'
     }
 }
-```
 
 }
