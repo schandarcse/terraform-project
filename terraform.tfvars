@@ -1,6 +1,6 @@
 # terraform.tfvars
 aws_region      = "us-east-1"
-environment_name = "shyam_prod"
+environment_name = "AWSjenkins"
 sg_name       = "websrvr-SG"
 OS_name     = "Windows_Server_2025"
 vpc_cidr        = "20.0.0.0/16"
