@@ -440,7 +440,7 @@ resource "aws_lb_target_group" "target_group" {
     interval = 5
 
     # Timeout after 5 seconds
-    timeout = 5
+    timeout = 4
 
     # 3 successful checks = healthy
     healthy_threshold = 3
