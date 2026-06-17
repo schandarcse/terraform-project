@@ -1,0 +1,77 @@
+pipeline {
+
+```
+agent any
+
+stages {
+
+    stage('Checkout') {
+        steps {
+            git branch: 'main',
+                url: 'https://github.com/schandarcse/terraform-project.git'
+        }
+    }
+
+    stage('AWS Test') {
+        steps {
+            withCredentials([
+                [$class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'aws-creds']
+            ]) {
+                bat 'aws --version'
+                bat 'aws sts get-caller-identity'
+            }
+        }
+    }
+
+    stage('Terraform Init') {
+        steps {
+            withCredentials([
+                [$class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'aws-creds']
+            ]) {
+                bat 'terraform init'
+            }
+        }
+    }
+
+    stage('Terraform Validate') {
+        steps {
+            bat 'terraform validate'
+        }
+    }
+
+    stage('Terraform Destroy Plan') {
+        steps {
+            withCredentials([
+                [$class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'aws-creds']
+            ]) {
+                bat 'terraform plan -destroy -out=destroy.tfplan -var-file="terraform.tfvars"'
+            }
+        }
+    }
+
+    stage('Terraform Destroy') {
+        steps {
+            withCredentials([
+                [$class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'aws-creds']
+            ]) {
+                bat 'terraform apply -auto-approve destroy.tfplan'
+            }
+        }
+    }
+}
+
+post {
+    success {
+        echo 'Terraform resources destroyed successfully.'
+    }
+    failure {
+        echo 'Terraform destroy failed.'
+    }
+}
+```
+
+}
