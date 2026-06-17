@@ -483,53 +483,20 @@ resource "aws_lb_listener" "alb_listener" {
 # ====== 3. User Data =======
 # ====== remaining values will be default as input will be given during EC2 launch from template ========
 
-
-# ==========================================
-# Get Default VPC
-# ==========================================
-
-data "aws_vpc" "default" {
-  default = true
-}
-
-# ==========================================
-# Get Default Security Group
-# ==========================================
-
-data "aws_security_group" "default" {
-  name   = "default"
-  vpc_id = data.aws_vpc.default.id
-}
-
-
 # ==========================================
 # Launch Template
 # ==========================================
 
 resource "aws_launch_template" "launch_template" {
 
-  # Template name
-  name = "${var.OS_name}-template"
-
-  # AMI ID
-  image_id = var.ami_id
-
-  # Key Pair
-  key_name = var.key_name
-
-  # Default instance type
+  name          = "${var.OS_name}-template"
+  image_id      = var.ami_id
   instance_type = var.instance_type
+  key_name      = var.key_name
 
-  network_interfaces {
-
-    # Assign Public IP
-    associate_public_ip_address = true
-
-    # Default Security Group
-    security_groups = [
-      data.aws_security_group.default.id
-    ]
-  }
+  vpc_security_group_ids = [
+    aws_security_group.ec2_sg.id
+  ]
 
 # ===== Windows User Data =====
 
