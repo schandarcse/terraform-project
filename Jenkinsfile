@@ -26,6 +26,14 @@ pipeline {
             }
         }
 
+        stage('AWS Test') {
+           
+            steps {
+                bat 'aws --version'
+                bat 'aws sts get-caller-identity'
+            }
+        }
+
         stage('Terraform Plan') {
 
             steps {
