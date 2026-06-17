@@ -1,0 +1,19 @@
+# terraform.tfvars
+aws_region      = "us-east-1"
+environment_name = "shyam_prod"
+sg_name       = "websrvr-SG"
+OS_name     = "Windows_Server_2025"
+vpc_cidr        = "20.0.0.0/16"
+public_subnet_a_cidr = "20.0.1.0/24"
+public_subnet_b_cidr = "20.0.2.0/24"
+private_subnet_c_cidr = "20.0.3.0/24"
+subnet_az_p = "us-east-1d"
+subnet_az_q = "us-east-1e"
+public_subnet_p_cidr = "20.0.4.0/24"
+private_subnet_q_cidr = "20.0.5.0/24"
+ami_id          = "ami-09639480113b0df96"  # Windows 2025 (adjust for your region)
+instance_type   = "t2.small"
+key_name        = "RDP-key"  # Replace with your EC2 key pair name
+min_size        = 3
+max_size        = 6
+desired_capacity = 4
